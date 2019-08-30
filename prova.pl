@@ -23,7 +23,8 @@ cursa(Nome, Curso) :-
     curso(Codigo, Curso), 
     matriculado(Matricula, Codigo).
 
-/* Letra b cursa(X, truco). */
+/* Letra b 
+?- cursa(X, truco). */
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -45,9 +46,10 @@ frase(P1, P2, P3, P4, P5) :-
   palavra(pronome, P4),
   palavra(substantivo, P5).
 
-/* Letra b: Não, mas a frase "o bandido rouba algum hamburguer" é válida. */
+/* Letra b
+Não, mas a frase "o bandido rouba algum hamburguer" é válida. */
 
-/* Letra c: 32 combinações. */
+/* Letra c: 2^5 = 32 combinações. */
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -74,9 +76,7 @@ neto(X, Y) :- pai(Z, X), pai(Y, Z).
 /* Letra d */
 % X vai ser descendente de Y se Y é pai de X ou pai de algum pai
 descendente(X, Y) :- pai(Y, X).
-descendente(X, Y) :- neto(X, Y).
-% falta adicionar um caso recursivo
-descendente(X, Y) :- descendente(X, Z), pai(Y, Z).
+descendente(X, Y) :- pai(Z, X), descendente(Z, Y).
 
 /* Letra e */
 % X será avô se X tem um neto.
@@ -106,7 +106,22 @@ c(16, 12).
 c(16, 19).
 
 /* Letra a */
+% vai de X a Y se existe um caminho de X a Y
 vai(X, Y) :- c(X, Y).
-vai(X, Y) :- c(X, Z), c(Z, Y).
-vai(X, Y) :- c(X, Z), c(Z, W), c(W, Y).
-% Note que é recursivo. Defina isso melhor depois
+% vai de X a Y se existe Z tal que e possível alcançar Y a partir de Z
+vai(X, Y) :- c(X, Z), vai(Z, Y). 
+
+/* Letra b */
+% Sim. Apenas a sala 5.
+
+/* Letra c */ 
+% Sala 2, 8, 10, 18 e 20.
+
+/* Letra d */ 
+% É possível chegar na sala 20 a partir das salas 19, 5, 15, 6, 11 e 16. Logo, a sala com menor número é a 5. 
+
+/* Letra e */
+% Não. O predicado supradefinido considera apenas os caminhos de X para Y, não está definido de Y para X.
+% Para tal, precisaríamos adicionar:
+% 	vai(X, Y) :- c(Y, X).
+%	vai(X, Y) :- c(Y, Z), vai(Z, Y).
